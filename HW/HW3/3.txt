@@ -1,0 +1,44 @@
+// You are given a JS pseudo-random number generator rand() based on your student ID.
+// This function is to make your results reproducible.
+let seed = 1234567890;
+function rand() {
+    if (typeof seed != 'number') seed = Number(seed.match(/\d+/g));
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// You are given an HTML document (see attachment) with an ordered list of cities and a couple of buttons below.
+// [Task 1] When you click on a list item, the item will move to the top of the list.
+// Hint: Remember https://javascript.info/modifying-document
+// [Task 2] When you click on the "shuffle" button, all list items are rearranged in a random order.
+// Hint 1: Use the provided rand() function.
+// Hint 2: Read about Array.sort().
+// [Task 3] When you click on the "colorize" button, change the background color of all list items at random.
+// Hint 1: Use the provided rand() function.
+// Hint 2: JS colors are hexadecimal numbers between 0x000000 and 0xffffff.
+
+let list = document.querySelector('ol');
+let items = document.querySelectorAll('li');
+
+// Clicking on a list item, the item moves to the top of the list.
+items.forEach(function(elem) {
+    // I'll use an arrow function to save some keystrokes.
+    // All insertion methods (prepend, append, etc.) automatically remove the node from the old place.
+    elem.addEventListener('click', (ev) => list.prepend(elem));
+});
+
+// Clicking on the "shuffle" button, all list items are rearranged in a random order.
+document.getElementById('shuffle').addEventListener('click', function(ev) {
+    // We have to convert NodeList to an actual array, in order to use the `sort()` function.
+    var newList = [].slice.call(items);
+    // For random sorting, we need to generate random positive and negative numbers.
+    newList.sort((a,b) => rand() - 0.5);
+    newList.forEach(elem => list.prepend(elem));
+});
+
+// Clicking on the "colorize" button, change the background color of all list items at random.
+document.getElementById('colorize').addEventListener('click', (ev) => items.forEach(setRandBg));
+
+function setRandBg(elem) {
+  elem.style.backgroundColor = '#' + Math.floor(rand() * 0xffffff).toString(16);
+}

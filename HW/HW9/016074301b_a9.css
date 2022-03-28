@@ -1,0 +1,54 @@
+@media only screen and (min-width: 769px){
+    body { width: 769px; margin: auto; }
+    header, main, footer { margin: 1em; }
+    div { background-color: lightgray; }
+    .fake-block { height: 80px; margin: auto; }
+    .card { background-color: white; float: left; margin-right: 1em; }
+    .box { width: 150px; height: 150px; background-color: gray; }
+    .desc { margin: 0.5em 0em; }
+    .product-title { height: 40px; }
+    .product-description-line { height: 16px; }
+    main { overflow: auto; }
+    aside { float: right; width: 200px; }
+    footer { clear: both; }
+}
+
+/* Dimensions iPad (768 x 1024) */
+@media only screen and (max-width: 768px) and (min-width: 376px){
+body { width: 100%; margin: auto; }
+header, main, footer { margin: 1em; }
+div { background-color: lightgray; }
+.fake-block { height: 80px; margin: auto; }
+.card { background-color: white; width: 50%; margin: 1em auto; }
+.box { width: 150px; height: 150px; background-color: gray; }
+.desc { margin: 0.5em 0em; }
+.product-title { height: 40px; }
+.product-description-line { height: 16px; }
+main { overflow: auto; }
+footer { clear: both; }
+
+} 
+
+/* Dimensions iPhoneX (375 x 812) */
+@media only screen and (max-width: 375px){
+body { width: 100%; margin: auto; }
+header, main, footer { margin: 1em; }
+div { background-color: lightgray; }
+.fake-block { height: 40px; margin: auto; }
+.card { background-color: white; margin: 1em auto; }
+.box { width: 75px; height: 75px; background-color: gray; margin: 1em auto; }
+.desc { margin: 0.25em 0em; width: 375px;}
+.product-title { height: 20px; }
+.product-description-line { height: 8px; }
+main { overflow: auto; }
+aside { width: 0px; height: 0px}
+footer { clear: both; }
+}
+/* Dark mode for any dimension */
+@media (prefers-color-scheme: dark) {
+    body{background-color: black;}
+    .card { background-color: black;}
+    .box{background-color: white;}
+    div { background-color: gray; }
+}
+

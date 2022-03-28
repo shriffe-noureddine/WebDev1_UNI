@@ -1,0 +1,45 @@
+// Download the main page of WikiPedia (see attachment) and inject a script that performs the following tasks:
+// [Task 1] Use your random() function to generate a random color and use it as the border color of all images inside the news and featured articles.
+// Hint: See https://developer.mozilla.org/en-US/docs/Web/CSS/border
+// [Task 2] Use the same random color as background color for the anchors that link to wikipedia pages only, including relative and absolute URLs.
+// Note: subdomains are considered the same; e.g. "en.wikipedia.org" and "fr.wikipedia.org" are considered the same.
+// [Task 3] Save your stylistic changes in the browser, so that next time you run your program you can recover them.
+// Hint: Use localStorage.
+
+// We already know how to generate random colors, from coding assignment #3.
+let myColor = '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+
+// Define the syles that we want to apply as a "dictionary":
+// Keys will be CSS selectors and values will be CSS declarations (as an object).
+// This way we can store any other kind of styles if desired.
+// The idea is to use `document.querySelectorAll(key)` to match the respective HTML elements.
+let defaultStyles = {
+  // This selector might need to be improved, depending on how we interpret "news and featured articles".
+  // The key idea is to use a contextual selector, in order to not select ALL images on the page.
+  '.MainPageBG img': {
+    border: `2px solid ${myColor}`,
+  },
+  // We can chain multiple selectors in `document.querySelectorAll(string)`,
+  // so match the substring "wikipedia.org" in HREF attributes as well as the starting "/".
+  'a[href *= "wikipedia.org"], a[href ^= "/"]': {
+    backgroundColor: myColor,
+  },
+};
+
+// Since everything in localStorage is stored as a string, we have to serialize/deserialize our styles.
+// If we already have stored them, deserialize them using `JSON.parse(string)`.
+// Otherwise use the default styles we have just defined before.
+let savedStyles = localStorage.getItem('styles');
+let styles = savedStyles ? JSON.parse(savedStyles) : defaultStyles;
+
+for (let selector in styles) {
+  let props = styles[selector];
+  // Apply the styles for the given selector to each of the matched elements.
+  document.querySelectorAll(selector).forEach(el => {
+    for (let p in props) el.style[p] = props[p];
+  });
+}
+
+// We only need to save once our modifications, since next time we'll recover them from localStorage.
+// The key idea is to serialize the data, using `JSON.stringify(object)`.
+if (!savedStyles) localStorage.setItem('styles', JSON.stringify(styles));

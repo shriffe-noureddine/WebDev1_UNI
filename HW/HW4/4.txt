@@ -1,0 +1,52 @@
+// You are given a JS pseudo-random number generator rand() based on your student ID.
+// This function is to make your results reproducible.
+let seed = 1234567890;
+function rand() {
+    if (typeof seed != 'number') seed = Number(seed.match(/\d+/g));
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// You are given an HTML document (see attachment) with a simple form.
+// [Task 1] When you submit the form, the page asks for confirmation.
+// If you don't confirm, the form is never sent.
+// [Task 2] When you submit the form, the page asks for confirmation.
+// If you confirm, a hidden input field is added to the form with the output value of your rand() function and the form is sent.
+// Hint: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
+// [Task 3] If you Ctrl + Shift + Click on the submit button, no confirmation happens and the form is sent.
+// Also no hidden input field is added to the form.
+
+// Since the program must run in the HEAD of the document, we have to wait for the DOM to be ready.
+document.addEventListener('DOMContentLoaded', function() {
+  // By default, the form should ask for use confirmation.
+  let shouldConfirm = true;
+
+  // Ctrl + Shift + Click on the submit button will skip confirmation.
+  // NB: on Mac it's usually `Cmd` instead of `Ctrl`.
+  let button = document.querySelector('button');
+  button.addEventListener('click', function(ev) {
+    shouldConfirm = !((ev.ctrlKey || ev.metaKey) && ev.shiftKey);
+  });
+
+  let form = document.querySelector('form');
+  form.addEventListener('submit', function(ev) {
+    // Exit early.
+    if (!shouldConfirm) return;
+
+    // If user doesn't confirm, the form is never sent.
+    if (!confirm('Are you sure to submit?')) {
+      ev.preventDefault();
+      return;
+    }
+
+    // Otherwise insert a hidden input field before submitting the form.
+    let hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'random');
+    hiddenInput.setAttribute('value', rand());
+    // Bonus: `this` is the form element in this scope.
+    // We can use the `form` var as well.
+    this.append(hiddenInput);
+
+  });
+});

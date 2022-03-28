@@ -1,0 +1,41 @@
+// This scrit should be inserted AFTER the given <script> on the page.
+// Otherwise the click listener won't work.
+
+// You are given an HTML document (see attachment) with an empty table and a clickMe function inside a <script> element.
+// You have to fill in the table with N rows and N columns, where N = rand() * 100.
+// Each table cell must have the text (a,b), where a denotes the row index and b denotes the column index.
+
+// [Task 1] Write a function to create the table, using the following signature: createTable(domElement, numRows, numCols).
+// Hint: Read https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement
+// [Task 2] Imagine that your table represents a matrix. Write a function to highlight the cells in the upper diagonal,
+// using the following signature: highlightCell(domElement, rowIndex, colIndex).
+// Hint: You can highlight a cell by changing its font size or color, its background color, etc. Be as creative as you want.
+// [Task 3] Use the provided clickMe function in the HTML document so that if you click on a table cell you see an alert message with the content of the cell.
+
+function createTable(domElement, numRows, numCols) {
+  for (let r = 0; r < numRows; r++) {
+    let row = domElement.insertRow(r);
+    for (let c = 0; c < numCols; c++) {
+      let cell = row.insertCell(c);
+      cell.innerHTML = `(${r},${c})`;
+      // Highlight upper diagonal matrix elements.
+      if (r < c) {
+        highlightCell(domElement, r, c);
+      }
+    }
+  }
+}
+
+function highlightCell(domElement, rowIndex, colIndex) {
+  let cell = domElement.rows[rowIndex].cells[colIndex];
+  cell.style.color = 'red';
+}
+
+// Select TABLE element and populate with programmatically-generated content.
+let myTable = document.querySelector('table');
+createTable(myTable, 10, 10);
+
+// Finally attach the given event listener to the already-created table.
+document.querySelectorAll('td').forEach(clickMe);
+// Alt. option 1 (old school): [].slice.call(document.getElementsByTagName('td')).forEach(clickMe);
+// Alt. option 2 (ES6, newer): [...document.getElementsByTagName('td')].forEach(clickMe);

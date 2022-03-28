@@ -1,0 +1,62 @@
+// You are given a JS pseudo-random number generator rand() based on your student ID.
+// This function is to make your results reproducible.
+let seed = 1234567890;
+function rand() {
+    if (typeof seed != 'number') seed = Number(seed.match(/\d+/g));
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// [Task 1] Create a 100x100 square matrix with random binary cell values.
+// Don't print the matrix. Hint: Use the rand() function above
+// [Task 2] What is the number of non-zero elements in the matrix?
+// [Task 3] What is the trace of the matrix? Hint: https://en.wikipedia.org/wiki/Trace_(linear_algebra)
+
+let nRows = 100;
+let nCols = nRows;
+
+let matrix = createMatrix();
+let nZeros = countNonZeros(matrix);
+let mTrace = computeTrace(matrix);
+
+console.log('Num. non-zero elements:', nZeros);
+console.log('Trace of the matrix:', mTrace);
+
+function createMatrix() {
+  let matrix = [];
+  for (let i = 0; i < nCols; i++) {
+    let row = [];
+    for (let j = 0; j < nRows; j++) {
+      // The rand() function returns floats in the [0,1] range,
+      // so we must round them in order to be truly binary (either 1s or 0s).
+      let value = Math.round(rand());
+      row.push(value);
+    }
+    matrix.push(row);
+  }
+  return matrix;
+}
+
+function countNonZeros(matrix) {
+  let counter = 0;
+  for (let i = 0; i < nCols; i++) {
+    for (let j = 0; j < nRows; j++) {
+      let cellValue = matrix[i][j];
+      // It's fine to omit braces {} if just want to do one simple thing.
+      // It's best practice to use braces explicitly, though.
+      if (cellValue !== 0) counter++;
+    }
+  }
+  return counter;
+}
+
+function computeTrace(matrix) {
+  let trace = 0;
+  // We know that the trace considers only the elements in the main diagonal,
+  // so we don't really need to iterate over i cols and j rows, since the
+  // elements in the main diagonal are those where i==j.
+  for (let i = 0; i < nRows; i++) {
+    trace += matrix[i][i];
+  }
+  return trace;
+}

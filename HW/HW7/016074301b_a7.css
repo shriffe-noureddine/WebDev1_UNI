@@ -1,0 +1,44 @@
+body{
+    width: 50%;
+    margin:10px auto;
+}
+div{
+    width: 800px;
+}
+.card{
+    float:left;
+    width: 150px;
+    margin: 10px;
+}
+.image {
+  background-color: gray;
+  height: 150px;
+  width: 150px;
+}
+header{
+    background-color: lightgray;
+    height: 80px;
+    width: 800px;
+}
+footer{
+    clear: left;
+    background-color: lightgray;
+    height: 80px;
+    width: 800px;
+}
+aside{
+    display: inline;
+    float: right;
+    background-color: lightgray;
+    width: 200px;
+    height: 80px;
+    margin: 15px 0;
+}
+p{
+    background-color: lightgray;
+    height: 16px;
+}
+h2{
+    background-color: lightgray;
+    height: 40px;
+}
